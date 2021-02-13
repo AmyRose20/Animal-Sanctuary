@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "435482163596",
+    "project_id": "wicklow-animal-sanctuary-35823",
+    "storage_bucket": "wicklow-animal-sanctuary-35823.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435482163596:android:6d10a6276e351f00407ea9",
+        "android_client_info": {
+          "package_name": "com.amyrosemcnabb.animal_sanctuary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "435482163596-dhjkbbm0cr82vjnbehk2h30ktkuml0cf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgEwckpAVjFlDY8BQ-hUlCJIQc138Y3QY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "435482163596-dhjkbbm0cr82vjnbehk2h30ktkuml0cf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
