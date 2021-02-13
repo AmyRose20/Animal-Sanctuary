@@ -1,3 +1,4 @@
+import 'package:animal_sanctuary/screens/pet_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/pet_details.dart';
@@ -41,34 +42,42 @@ class _PetListState extends State<PetList> {
   @override
   Widget build(BuildContext context) {
     NetworkImage image;
-
-    return ListView.builder(
-      itemCount: (petDetails != null) ? petDetails.length : 0,
-      itemBuilder: (context, position) {
-        if(petDetails[position].petImage != null) {
-          image = NetworkImage(
-              petDetails[position].petImage
-          );
-        }
-        return Card(
-          color: Colors.white,
-          elevation: 2.0,
-          /* 'ListTile' is a material widget that can contain one to
-          three lines of text with optional icons at the beginning
-          and end. */
-          child: ListTile(
-            onTap: () {
-
-            },
-            title: Text(petDetails[position].petName),
-            subtitle: Text(petDetails[position].petDescription),
-            leading: CircleAvatar(
-              backgroundImage: image,
+    return Scaffold(
+        body: ListView.builder(
+          itemCount: (petDetails != null) ? petDetails.length : 0,
+          itemBuilder: (context, position) {
+          if(petDetails[position].petImage != null) {
+            image = NetworkImage(
+                petDetails[position].petImage
+            );
+          }
+          return Card(
+            color: Colors.white,
+            elevation: 2.0,
+            /* 'ListTile' is a material widget that can contain one to
+            three lines of text with optional icons at the beginning
+            and end. */
+            child: ListTile(
+              onTap: () {
+                /*MaterialPageRoute route = MaterialPageRoute(
+                  builder: (_) => PetDetailScreen(petDetails[position])
+                ) ; */
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>
+                    PetDetailScreen(petDetails[position])));
+              },
+              title: Center(
+                child: Text(petDetails[position].petName),
+              ),
+              subtitle: Text(petDetails[position].petDescription),
+              leading: CircleAvatar(
+                  backgroundImage: image,
+                ),
             ),
-          )
-        );
-      },
-    );
+          );
+        },
+    ));
   }
 
   // retrieve the list
