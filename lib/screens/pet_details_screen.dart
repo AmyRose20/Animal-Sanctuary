@@ -8,7 +8,6 @@ class PetDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NetworkImage image;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar:  AppBar(

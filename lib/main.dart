@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   /* In the build method you describe the
   widget returned by the method. */
   Widget build(BuildContext context) {
-    // testData();
+    testData();
     /* Content is wrapped in a MaterialApp widget. This allows
     you to give a title to your app. */
     return MaterialApp(

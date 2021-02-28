@@ -70,7 +70,6 @@ class _PetListState extends State<PetList> {
               title: Center(
                 child: Text(petDetails[position].petName),
               ),
-              subtitle: Text(petDetails[position].petDescription),
               leading: CircleAvatar(
                   backgroundImage: image,
                 ),

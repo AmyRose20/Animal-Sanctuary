@@ -7,7 +7,7 @@ class PetDetails {
   String _petName;
   String _petImage;
   String _petDescription;
-  int _petAge;
+  String _petAge;
   String _petType;
 
   // Basic constructor
@@ -18,7 +18,7 @@ class PetDetails {
   String get petName => _petName;
   String get petImage => _petImage;
   String get petDescription => _petDescription;
-  int get petAge => _petAge;
+  String get petAge => _petAge;
   String get petType => _petType;
 
   /* Constructor named 'fromMap()', that will take a
