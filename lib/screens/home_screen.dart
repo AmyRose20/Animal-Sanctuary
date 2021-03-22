@@ -1,3 +1,6 @@
+import 'package:animal_sanctuary/screens/launch_screen.dart';
+import 'package:animal_sanctuary/screens/login_screen.dart';
+import 'package:animal_sanctuary/shared/authentication.dart';
 import 'package:flutter/material.dart';
 import 'pets_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final Firestore db = Firestore.instance;
   final double defaultPadding = 5.0;
   HomeDetails homeDetails;
+  final Authentication auth = new Authentication();
 
   @override
   void initState() {
@@ -45,73 +49,74 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: Text('Wicklow Animal Sanctuary'),
           backgroundColor: Colors.blue[400],
+          actions: [
+            IconButton(
+                icon: Icon(Icons.exit_to_app),
+                onPressed: () {
+                  auth.signOut().then((result) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) =>
+                            LoginScreen()));
+                  });},
+            )],
         ),
         // body contains the main content of the screen
         body: Builder(builder: (context) =>
-            SingleChildScrollView(
-              /* child is a property that allows you to nest
-              widgets inside other widgets */
-              // Two Navigation Buttons underneath the Appbar
-              child: Column(children: [
-                Row(
-                    children: [
-                      Padding(padding: EdgeInsets.all(defaultPadding),),
-                      Expanded(child: RaisedButton(
-                        color: Color(0xff009688),
-                        child: Text("Animals",
-                            style: TextStyle(color: Colors.white, fontSize: 20)),
-                        onPressed: () =>
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) =>
-                                    PetScreen())),
-                      )),
+          SingleChildScrollView(
+            child: Column(children: [
+              Row(
+                children: [
+                  Padding(padding: EdgeInsets.all(defaultPadding),),
+                  Expanded(child: RaisedButton(
+                    color: Color(0xff009688),
+                    child: Text("Animals",
+                        style: TextStyle(color: Colors.white, fontSize: 20)),
+                    onPressed: () =>
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) =>
+                                PetScreen())),
+                  )),
 
-                      Padding(padding: EdgeInsets.all(defaultPadding),),
-                     Expanded(child: ButtonTheme(
-                       child: RaisedButton(
-                         color: Color(0xff607D8B),
-                         child: Text("Contact Us",
-                             style: TextStyle(color: Colors.white, fontSize: 20)),
-                         onPressed: () =>
-                             Navigator.push(context,
-                                 MaterialPageRoute(builder: (context) =>
-                                     ContactScreen())),
-                       ),
-                     )),
-                     /* Expanded(child: RaisedButton(
-                        color: Color(0xff607D8B),
-                        child: Text("Contact Us",
-                            style: TextStyle(color: Colors.white, fontSize: 20)),
-                        onPressed: () =>
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) =>
-                                    ContactScreen())),
-                      )),*/
-                      Padding(padding: EdgeInsets.all(defaultPadding),),
-                    ]),
+                  Padding(padding: EdgeInsets.all(defaultPadding),),
+                  Expanded(child: RaisedButton(
+                    color: Color(0xff607D8B),
+                    child: Text("Contact Us",
+                      style: TextStyle(color: Colors.white, fontSize: 20)),
+                    onPressed: () =>
+                        Navigator.push(context,
+                        MaterialPageRoute(builder: (context) =>
+                            ContactScreen())),
+                  )),
+                  Padding(padding: EdgeInsets.all(defaultPadding),),
+                ]),
 
-                Card(
-                    margin: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        constraints: BoxConstraints.expand(),
-                        padding: EdgeInsets.all(16),
-                        child: Text(
-                            homeDetails.homeHeader,
-                            style: TextStyle(fontSize: 20,
-                            fontWeight: FontWeight.bold),),
+              Card(
+                margin: const EdgeInsets.all(10.0),
+                child: Column(children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.all(16),
+                      child: Text(
+                        homeDetails.homeHeader,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,),
                       ),
-                      Image.network(homeDetails.homeImage),
-                      Container(
-                        padding: EdgeInsets.all(16),
-                        child: Text(homeDetails.homeDescription),
-                      ),
-                    ],
-                  ),
-                ),
-              ]),)
-        ));
+                    ),
+                    Image.network(homeDetails.homeImage),
+                    Container(
+                      padding: EdgeInsets.all(16),
+                      child: Text(homeDetails.homeDescription),
+                    ),
+                  ],),
+              ),
+              MaterialButton(child: Text('login'),
+              onPressed: () =>
+                Navigator.push(context,
+                MaterialPageRoute(builder: (context) =>
+                  LaunchScreen()))),
+            ]),
+        )
+    ));
   }
 
   Future<HomeDetails> getHomeDetails() async {

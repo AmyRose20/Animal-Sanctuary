@@ -1,3 +1,4 @@
+import 'package:animal_sanctuary/screens/launch_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import './screens/home_screen.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
     you to give a title to your app. */
     return MaterialApp(
       title: 'Wicklow Animal Sanctuary',
-      home: Home(),
+      home: LaunchScreen(),
     );
   }
 }
