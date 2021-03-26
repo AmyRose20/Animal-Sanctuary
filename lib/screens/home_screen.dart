@@ -33,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // SCREEN UI
   @override
   Widget build(BuildContext context) {
+    final mq = MediaQuery.of(context);
     NetworkImage image;
     double height = MediaQuery.of(context).size.height;
     if(homeDetails.homeImage != null) {
@@ -48,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
         contain the text that I want to display in the application bar. */
         appBar: AppBar(
           title: Text('Wicklow Animal Sanctuary'),
-          backgroundColor: Colors.blue[400],
           actions: [
             IconButton(
                 icon: Icon(Icons.exit_to_app),
@@ -63,7 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
         // body contains the main content of the screen
         body: Builder(builder: (context) =>
           SingleChildScrollView(
-            child: Column(children: [
+            child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
               Row(
                 children: [
                   Padding(padding: EdgeInsets.all(defaultPadding),),
@@ -99,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         homeDetails.homeHeader,
                         style: TextStyle(
                             fontSize: 20,
-                            fontWeight: FontWeight.bold,),
+                        ),
                       ),
                     ),
                     Image.network(homeDetails.homeImage),

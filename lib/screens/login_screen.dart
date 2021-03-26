@@ -1,6 +1,9 @@
 /* Screen allows user to login in to the app,
  or to sign up and obtain an identity. */
+
 import 'package:animal_sanctuary/screens/home_screen.dart';
+import 'package:animal_sanctuary/screens/register_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:animal_sanctuary/shared/authentication.dart';
 
@@ -10,52 +13,50 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  /* When the _isLogin Boolean is used a login will be performed,
-  when it is false a sign up will be enabled. */
-  bool _isLogin = true;
-  String _userId;
-  String _password;
-  String _email;
-  String firstName;
-  // String lastName;
-  // String address;
-  // String phoneNumber;
-  // String memberType;
-  // holds message for any error that may occur during login or sign up
-  String _message = '';
 
   final TextEditingController textEmail = TextEditingController();
   final TextEditingController textPassword = TextEditingController();
 
-  Authentication auth;
-
-  @override
-  void initState() {
-    auth = Authentication();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login'),),
+      appBar: AppBar(title: Text("Login/Register")),
       body: Container(
         padding: EdgeInsets.all(24),
         child: SingleChildScrollView(
-          child: Form(child: Column(
-            children: <Widget>[
-              emailInput(),
-              passwordInput(),
-              mainButton(),
-              secondaryButton(),
-              validationMessage(),],
-          )),
+          child: Form(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                emailInput(),
+                passwordInput(),
+                loginButton(),
+                registerButton(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text("Not a member?",),
+                    MaterialButton(
+                      child: Text("Register here",
+                          style: Theme.of(context).textTheme.subtitle1.copyWith(decoration:
+                      TextDecoration.underline),),
+                      onPressed: () {
+                        Navigator.push(context,
+                          MaterialPageRoute(builder: (context) =>
+                            RegisterScreen())
+                      );}
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
-  // Method returns email TextFormField widget
+  // Method returns password TextFormField widget
   Widget emailInput() {
     return Padding(
       padding: EdgeInsets.only(top: 120),
@@ -87,6 +88,71 @@ class _LoginScreenState extends State<LoginScreen> {
         validator: (text) => text.isEmpty ? 'Password is required' : '',
       ),
     );
+  }
+
+  Widget loginButton() {
+    return Padding(
+        padding: EdgeInsets.only(top: 120),
+        child: Container(
+            height: 50,
+            child: RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              color: Theme
+                  .of(context)
+                  .accentColor,
+              elevation: 3,
+              child: Text("Login"),
+              onPressed: () {
+
+              },
+            )
+        )
+    );
+  }
+
+  Widget registerButton() {
+    return Padding(
+        padding: EdgeInsets.only(top: 20),
+        child: Container(
+            height: 50,
+            child: RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              color: Theme
+                  .of(context)
+                  .accentColor,
+              elevation: 3,
+              child: Text("Register"),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) =>
+                        RegisterScreen())
+                );
+              }
+            )
+        )
+    );
+  }
+
+} // END
+
+ /* /* When the _isLogin Boolean is used a login will be performed,
+  when it is false a sign up will be enabled. */
+  bool _isLogin = true;
+  String _userId;
+  String _password;
+  String _email;
+  String firstName;
+  // holds message for any error that may occur during login or sign up
+  String _message = '';
+
+  Authentication auth;
+
+  @override
+  void initState() {
+    auth = Authentication();
+    super.initState();
   }
 
   Widget mainButton() {
@@ -171,6 +237,8 @@ class _LoginScreenState extends State<LoginScreen> {
       });
     }
   }
-}
+
+  */
+
 
 

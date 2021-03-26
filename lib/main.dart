@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     you to give a title to your app. */
     return MaterialApp(
       title: 'Wicklow Animal Sanctuary',
-      home: LaunchScreen(),
+      home: HomeScreen(),
     );
   }
 }
