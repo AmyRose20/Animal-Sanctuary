@@ -6,6 +6,7 @@ import 'pets_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:animal_sanctuary/screens/contact_screen.dart';
 import 'package:animal_sanctuary/models/home_details.dart';
+import 'package:animal_sanctuary/screens/register_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -115,8 +116,14 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () =>
                 Navigator.push(context,
                 MaterialPageRoute(builder: (context) =>
-                  LaunchScreen()))),
-            ]),
+                    LaunchScreen()))),
+                  MaterialButton(child: Text('Register'),
+                      onPressed: () =>
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) =>
+                                  RegisterScreen()))),
+                ]),
+
         )
     ));
   }

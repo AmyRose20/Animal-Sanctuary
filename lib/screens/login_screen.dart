@@ -1,11 +1,12 @@
 /* Screen allows user to login in to the app,
  or to sign up and obtain an identity. */
-
 import 'package:animal_sanctuary/screens/home_screen.dart';
 import 'package:animal_sanctuary/screens/register_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:animal_sanctuary/shared/authentication.dart';
+import 'package:flutter/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -14,8 +15,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-  final TextEditingController textEmail = TextEditingController();
-  final TextEditingController textPassword = TextEditingController();
+  final TextEditingController _textEmail = TextEditingController();
+  final TextEditingController _textPassword = TextEditingController();
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 emailInput(),
                 passwordInput(),
                 loginButton(),
-                registerButton(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -61,10 +61,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return Padding(
       padding: EdgeInsets.only(top: 120),
       child: TextFormField(
-        controller: textEmail,
+        controller: _textEmail,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
-            hintText: 'email',
+            hintText: 'yourname@example.com',
+            labelText: 'Email',
             icon: Icon(Icons.mail)
         ),
         validator: (text) => text.isEmpty ? 'Email is required' : '',
@@ -77,12 +78,13 @@ class _LoginScreenState extends State<LoginScreen> {
     return Padding(
       padding: EdgeInsets.only(top: 120),
       child: TextFormField(
-        controller: textPassword,
+        controller: _textPassword,
         keyboardType: TextInputType.emailAddress,
         // hide password characters
         obscureText: true,
         decoration: InputDecoration(
             hintText: 'password',
+            labelText: 'Password',
             icon: Icon(Icons.enhanced_encryption)
         ),
         validator: (text) => text.isEmpty ? 'Password is required' : '',
@@ -103,38 +105,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   .accentColor,
               elevation: 3,
               child: Text("Login"),
-              onPressed: () {
-
+              onPressed: () async {
+                try {
+                  FirebaseUser firebaseUser = (await FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                      email: _textEmail.text,
+                      password: _textPassword.text)).user;
+                  if(firebaseUser != null)
+                    {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) =>
+                              HomeScreen()));
+                    }
+                } catch(e) {
+                  print(e);
+                  _textEmail.text = "";
+                  _textPassword.text = "";
+                }
               },
             )
         )
     );
   }
-
-  Widget registerButton() {
-    return Padding(
-        padding: EdgeInsets.only(top: 20),
-        child: Container(
-            height: 50,
-            child: RaisedButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              color: Theme
-                  .of(context)
-                  .accentColor,
-              elevation: 3,
-              child: Text("Register"),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) =>
-                        RegisterScreen())
-                );
-              }
-            )
-        )
-    );
-  }
-
 } // END
 
  /* /* When the _isLogin Boolean is used a login will be performed,
