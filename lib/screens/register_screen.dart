@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:animal_sanctuary/screens/home_screen.dart';
 import 'package:animal_sanctuary/screens/login_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -9,16 +10,17 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+
   final TextEditingController _textFirstName = TextEditingController();
   final TextEditingController _textSecondName = TextEditingController();
   final TextEditingController _textEmail = TextEditingController();
   final TextEditingController _textPhoneNumber = TextEditingController();
   final TextEditingController _textPassword = TextEditingController();
-  final TextEditingController _textRePassword = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Register")),
+      appBar: AppBar(title: Text('Register')),
       body: Container(
         padding: EdgeInsets.all(24),
         child: SingleChildScrollView(
@@ -32,27 +34,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 emailInput(),
                 phoneNumberInput(),
                 passwordInput(),
-                rePasswordInput(),
                 registerButton(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text("Already a member?",),
-                    MaterialButton(
-                        child: Text("Sign in",
+                Padding(
+                  padding: EdgeInsets.only(top: 50),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text('Already a member?',),
+                        MaterialButton(
+                          child: Text('Sign in',
                           style: Theme.of(context).textTheme.subtitle1.copyWith(decoration:
                           TextDecoration.underline),),
-                        onPressed: () {
-                          Navigator.push(context,
+                          onPressed: () {
+                            Navigator.push(context,
                               MaterialPageRoute(builder: (context) =>
                                   LoginScreen())
-                          );}
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+                            );}
+                        ),],),),
+              ],),),
         ),
       ),
     );
@@ -61,14 +60,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   // Method returns FIRST NAME TextFormField widget
   Widget firstNameInput() {
     return Padding(
-      padding: EdgeInsets.only(top: 120),
+      padding: EdgeInsets.only(top: 20),
       child: TextFormField(
         controller: _textFirstName,
         decoration: InputDecoration(
             hintText: 'John',
             labelText: 'First Name',
-            icon: Icon(Icons.person)
-        ),
+            icon: Icon(Icons.person)),
         validator: (text) => text.isEmpty ? 'First Name is required' : '',
       ),
     );
@@ -77,7 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   // Method returns SECOND NAME TextFormField widget
   Widget secondNameInput() {
     return Padding(
-      padding: EdgeInsets.only(top: 120),
+      padding: EdgeInsets.only(top: 20),
       child: TextFormField(
         controller: _textSecondName,
         decoration: InputDecoration(
@@ -93,14 +91,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   // Method returns EMAIL TextFormField widget
   Widget emailInput() {
     return Padding(
-      padding: EdgeInsets.only(top: 120),
+      padding: EdgeInsets.only(top: 20),
       child: TextFormField(
         controller: _textEmail,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
             hintText: 'yourname@example.com',
             labelText: 'Email',
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.mail),
         ),
         validator: (text) => text.isEmpty ? 'Email is required' : '',
       ),
@@ -110,7 +108,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   // Method returns PHONE NUMBER TextFormField widget
   Widget phoneNumberInput() {
     return Padding(
-      padding: EdgeInsets.only(top: 120),
+      padding: EdgeInsets.only(top: 20),
       child: TextFormField(
         controller: _textPhoneNumber,
         keyboardType: TextInputType.phone,
@@ -124,12 +122,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  // Method returns password TextFormField widget
+  // Method returns PASSWORD TextFormField widget
   Widget passwordInput() {
     return Padding(
-      padding: EdgeInsets.only(top: 120),
+      padding: EdgeInsets.only(top: 20),
       child: TextFormField(
-        //controller: textPassword,
+        controller: _textPassword,
         keyboardType: TextInputType.emailAddress,
         // hide password characters
         obscureText: true,
@@ -143,68 +141,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  // Method returns REENTERED PASSWORD TextFormField widget
-  Widget rePasswordInput() {
-    return Padding(
-      padding: EdgeInsets.only(top: 120),
-      child: TextFormField(
-        controller: _textRePassword,
-        keyboardType: TextInputType.emailAddress,
-        // hide password characters
-        obscureText: true,
-        decoration: InputDecoration(
-            hintText: 'password',
-            labelText: 'Password',
-            icon: Icon(Icons.enhanced_encryption)
-        ),
-        validator: (text) => text.isEmpty ? 'Password is required' : '',
-      ),
-    );
-  }
-
+  // Widget returns REGISTER BUTTON
   Widget registerButton() {
     return Padding(
-        padding: EdgeInsets.only(top: 20),
+        padding: EdgeInsets.only(top: 50),
         child: Container(
             height: 50,
             child: RaisedButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
-                color: Theme
-                    .of(context)
-                    .accentColor,
+                color: Theme.of(context).accentColor,
                 elevation: 3,
-                child: Text("Register"),
+                child: Text('Register'),
                 onPressed: () async {
                   try {
-                    FirebaseUser firebaseUser = (await FirebaseAuth.instance
+                    FirebaseUser user = (await FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
-                        email: _textEmail.text,
-                        password: _textPassword.text)).user;
-                    if(firebaseUser != null) {
-                      // holds all information pertaining to a firebase user
+                        email: _textEmail.text, password: _textPassword.text)).user;
+                    Firestore.instance.collection('UserDetails').document().setData({ 'userid': user.uid,
+                      'userFirstName': _textFirstName.text, 'userSecondName': _textSecondName.text,
+                      'userEmail' : _textEmail.text, 'userPhoneNumber': _textPhoneNumber.text,
+                        'userPassword': _textPassword.text,});
+
+                    if(user != null)
+                    {
+                      // Holds all information pertaining to a firebase user
                       UserUpdateInfo updateUser = UserUpdateInfo();
-                      // modified display name
+                      // Modified display name
                       updateUser.displayName = _textFirstName.text;
-                      firebaseUser.updateProfile(updateUser);
+                      user.updateProfile(updateUser);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) =>
-                            HomeScreen()));
+                              HomeScreen()));
                     }
                   } catch (e) {
                     print(e);
-                    // reset screen if error
+                    // Reset screen if error
                     _textFirstName.text = "";
                     _textSecondName.text = "";
                     _textEmail.text = "";
                     _textPhoneNumber.text = "";
                     _textPassword.text = "";
-                    _textRePassword.text = "";
-                  }
-                }
-                ),
-            ),
-        );
-  }
+                  }} // End of Try/Catch Block and onPressed()
+                ),),);
+  } // End of registerButton()
 } // END
 

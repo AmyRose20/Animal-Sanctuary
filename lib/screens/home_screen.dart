@@ -1,4 +1,3 @@
-import 'package:animal_sanctuary/screens/launch_screen.dart';
 import 'package:animal_sanctuary/screens/login_screen.dart';
 import 'package:animal_sanctuary/shared/authentication.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:animal_sanctuary/screens/contact_screen.dart';
 import 'package:animal_sanctuary/models/home_details.dart';
 import 'package:animal_sanctuary/screens/register_screen.dart';
+import 'package:animal_sanctuary/screens/login_launch_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -57,8 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   auth.signOut().then((result) {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) =>
-                            LoginScreen()));
-                  });},
+                            LoginLaunchScreen()));});},
             )],
         ),
         // body contains the main content of the screen
@@ -112,11 +111,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],),
               ),
-              MaterialButton(child: Text('login'),
+
+              // LOGIN
+              MaterialButton(child: Text('Login'),
               onPressed: () =>
                 Navigator.push(context,
                 MaterialPageRoute(builder: (context) =>
-                    LaunchScreen()))),
+                    LoginLaunchScreen()))),
+
+
                   MaterialButton(child: Text('Register'),
                       onPressed: () =>
                           Navigator.push(context,

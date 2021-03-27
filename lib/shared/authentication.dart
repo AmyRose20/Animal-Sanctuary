@@ -25,14 +25,6 @@ class Authentication {
     FirebaseUser user = await _firebaseAuth.currentUser();
     return user;
   }
-
-  // Creating a new user
-  Future<String> signUp(String email, String password) async {
-    AuthResult authResult = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
-    FirebaseUser user = authResult.user;
-    return user.uid;
-  }
 }
 
 

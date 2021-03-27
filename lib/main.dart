@@ -1,4 +1,4 @@
-import 'package:animal_sanctuary/screens/launch_screen.dart';
+import 'package:animal_sanctuary/screens/login_launch_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import './screens/home_screen.dart';

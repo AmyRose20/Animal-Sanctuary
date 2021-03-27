@@ -7,12 +7,12 @@ import 'login_screen.dart';
 import 'home_screen.dart';
 import 'package:animal_sanctuary/shared/authentication.dart';
 
-class LaunchScreen extends StatefulWidget {
+class LoginLaunchScreen extends StatefulWidget {
   @override
-  _LaunchScreenState createState() => _LaunchScreenState();
+  _LoginLaunchScreenState createState() => _LoginLaunchScreenState();
 }
 
-class _LaunchScreenState extends State<LaunchScreen> {
+class _LoginLaunchScreenState extends State<LoginLaunchScreen> {
   // Check the current user state
   @override
   void initState() {
