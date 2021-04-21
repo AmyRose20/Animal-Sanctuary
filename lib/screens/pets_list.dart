@@ -2,13 +2,14 @@ import 'package:animal_sanctuary/screens/pet_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/pet_details.dart';
+import 'package:animal_sanctuary/screens/add_to_pet_list.dart';
 
 class PetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // this text appears int a bar at the top of the screen
+        // this text appears in a bar at the top of the screen
         title: Text('Pets'),
       ),
       body: PetList(),
@@ -17,11 +18,15 @@ class PetScreen extends StatelessWidget {
 }
 
 class PetList extends StatefulWidget {
+  //final bool isAdmin;
+  //const PetList(this.isAdmin);
+
   @override
   _PetListState createState() => _PetListState();
 }
 
 class _PetListState extends State<PetList> {
+  final admin = true;
   // instance of Firestore database
   final Firestore db = Firestore.instance;
   // instance of 'PetDetails' in a List
@@ -76,10 +81,33 @@ class _PetListState extends State<PetList> {
             ),
           );
         },
-    ));
+    ),
+     /* Column(
+        children: <Widget>[
+          if(widget.isAdmin) FloatingActionButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) =>
+                      AddToListScreen()));
+            },
+            child: Icon(Icons.add),
+            backgroundColor: Colors.blue,
+          ),
+        ],
+      ),*/
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) =>
+                  AddToListScreen()));
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Colors.blue,
+      ),
+    );
   }
 
-  // retrieve the list
+  // Retrieve the list
   Future<List<PetDetails>> getPetDetailsList() async {
     // getDocuments() gets all available data from 'PetDetails'
     var data = await db.collection('PetDetails').getDocuments();

@@ -1,3 +1,4 @@
+import 'package:animal_sanctuary/shared/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:animal_sanctuary/screens/home_screen.dart';
 import 'package:animal_sanctuary/screens/login_screen.dart';
@@ -7,15 +8,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class RegisterScreen extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
+
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
 
+  String _message;
   final TextEditingController _textFirstName = TextEditingController();
   final TextEditingController _textSecondName = TextEditingController();
   final TextEditingController _textEmail = TextEditingController();
   final TextEditingController _textPhoneNumber = TextEditingController();
   final TextEditingController _textPassword = TextEditingController();
+
+  Authentication auth;
+  @override
+  void initState() {
+    auth = Authentication();
+    super.initState();
+    setState(() {
+      _message = "";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 phoneNumberInput(),
                 passwordInput(),
                 registerButton(),
+                validationMessage(),
                 Padding(
                   padding: EdgeInsets.only(top: 50),
                   child: Row(
@@ -172,7 +186,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       user.updateProfile(updateUser);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) =>
-                              HomeScreen()));
+                              HomeScreen(false)));
                     }
                   } catch (e) {
                     print(e);
@@ -185,5 +199,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   }} // End of Try/Catch Block and onPressed()
                 ),),);
   } // End of registerButton()
+
+  Widget validationMessage() {
+    return Text(_message,
+      style: TextStyle(
+          fontSize: 14,
+          color: Colors.red,
+          fontWeight: FontWeight.bold),);
+  }
 } // END
 

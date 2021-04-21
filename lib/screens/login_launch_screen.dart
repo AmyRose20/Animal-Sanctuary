@@ -8,6 +8,7 @@ import 'home_screen.dart';
 import 'package:animal_sanctuary/shared/authentication.dart';
 
 class LoginLaunchScreen extends StatefulWidget {
+
   @override
   _LoginLaunchScreenState createState() => _LoginLaunchScreenState();
 }
@@ -24,7 +25,7 @@ class _LoginLaunchScreenState extends State<LoginLaunchScreen> {
       else the Login Screen will display.*/
       if (user != null) {
         route = MaterialPageRoute(builder: (context) =>
-            HomeScreen());
+            HomeScreen(false));
       }
       else {
         route = MaterialPageRoute(builder: (context) =>
