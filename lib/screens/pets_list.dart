@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/pet_details.dart';
 import 'package:animal_sanctuary/screens/add_to_pet_list.dart';
+import 'package:animal_sanctuary/shared/authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:animal_sanctuary/models/user_details.dart';
+import 'package:animal_sanctuary/screens/home_screen.dart';
 
 class PetScreen extends StatelessWidget {
   @override
@@ -26,11 +30,16 @@ class PetList extends StatefulWidget {
 }
 
 class _PetListState extends State<PetList> {
-  final admin = true;
-  // instance of Firestore database
+  // Instance of Firestore database
   final Firestore db = Firestore.instance;
-  // instance of 'PetDetails' in a List
+  // Instance of 'PetDetails' in a List
   List<PetDetails> petDetails = [];
+
+  bool _plusSign = true;
+  UserDetails userDetails;
+  //String userType = '';
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
 
   @override
   void initState() {
@@ -38,6 +47,11 @@ class _PetListState extends State<PetList> {
       getPetDetailsList().then((data) {
         setState(() {
           petDetails = data;
+        });
+      });
+      getUserDetails().then((userData) {
+        setState(() {
+          userDetails = userData;
         });
       });
     }
@@ -51,51 +65,39 @@ class _PetListState extends State<PetList> {
         body: ListView.builder(
           itemCount: (petDetails != null) ? petDetails.length : 0,
           itemBuilder: (context, position) {
-          if(petDetails[position].petImage != null) {
-            image = NetworkImage(
+            if(petDetails[position].petImage != null) {
+              image = NetworkImage(
                 petDetails[position].petImage
-            );
-          }
-          return Card(
-            color: Colors.white,
-            elevation: 2.0,
-            /* 'ListTile' is a material widget that can contain one to
-            three lines of text with optional icons at the beginning
-            and end. */
-            child: ListTile(
-              onTap: () {
-                /*MaterialPageRoute route = MaterialPageRoute(
-                  builder: (_) => PetDetailScreen(petDetails[position])
-                ) ; */
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>
-                    PetDetailScreen(petDetails[position])));
-              },
-              title: Center(
-                child: Text(petDetails[position].petName),
-              ),
-              leading: CircleAvatar(
+              );
+            }
+            return Card(
+              color: Colors.white,
+              elevation: 2.0,
+              /* 'ListTile' is a material widget that can contain one to
+              three lines of text with optional icons at the beginning
+              and end. */
+              child: ListTile(
+                onTap: () {
+                  /*MaterialPageRoute route = MaterialPageRoute(
+                    builder: (_) => PetDetailScreen(petDetails[position])
+                  ) ; */
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>
+                      PetDetailScreen(petDetails[position])));
+                },
+                title: Center(
+                  child: Text(petDetails[position].petName),
+                ),
+                leading: CircleAvatar(
                   backgroundImage: image,
                 ),
             ),
           );
         },
-    ),
-     /* Column(
-        children: <Widget>[
-          if(widget.isAdmin) FloatingActionButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) =>
-                      AddToListScreen()));
-            },
-            child: Icon(Icons.add),
-            backgroundColor: Colors.blue,
-          ),
-        ],
-      ),*/
-      floatingActionButton: FloatingActionButton(
+      ),
+
+      floatingActionButton: userDetails != null && userDetails.userType == "staffMember" ? FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) =>
@@ -103,7 +105,8 @@ class _PetListState extends State<PetList> {
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.blue,
-      ),
+      ) : Container(),
+
     );
   }
 
@@ -127,6 +130,19 @@ class _PetListState extends State<PetList> {
     // returns List instance of 'PetDetails'
     return petDetails;
   }
+
+  Future<UserDetails> getUserDetails() async {
+    final FirebaseUser user = await auth.currentUser();
+    var data = await db.collection('UserDetails').document(user.uid).get();
+
+    if(data != null) {
+      userDetails = UserDetails.fromMap(data);
+      userDetails.id = data.documentID;
+    }
+    return userDetails;
+  }
 }
+
+
 
 

@@ -24,8 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final Authentication auth = new Authentication();
   bool _isLogin;
 
-
-
   @override
   void initState() {
     if (mounted) {
@@ -98,25 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
 
-  /*Widget loginButton () {
-    return FlatButton (
-        child: Text("Login"),
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) =>
-                  LoginLaunchScreen()));
-        });
-  }*/
-
-  /*Widget logoutButton () {
-    return FlatButton (
-        child: Text("Logout"),
-    onPressed: () {
-    auth.signOut().then((result) {
-    Navigator.push(context,
-    MaterialPageRoute(builder: (context) =>
-    LoginLaunchScreen()));});});
-  }*/
 
   Widget headerButtons() {
     return Row(
