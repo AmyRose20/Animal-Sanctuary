@@ -116,9 +116,9 @@ class _AddToListScreenState extends State<AddToListScreen> {
                   Padding(padding: EdgeInsets.all(10),),
 
                   // Pet Type
-                  Text('Pet Type'),
+                  //Text('Pet Type'),
                   // Dog
-                  Row(
+                  /*Row(
                     children: <Widget> [
                       Radio (
                       value: 'Dog',
@@ -134,7 +134,6 @@ class _AddToListScreenState extends State<AddToListScreen> {
                         child: Text('Dog'),
                       ),
                     ]),
-                  // Cat
                   Row(
                       children: <Widget> [
                         Radio (
@@ -167,9 +166,8 @@ class _AddToListScreenState extends State<AddToListScreen> {
                           },
                           child: Text('Other'),
                         ),
-                      ]),
+                      ]), */
                   Padding(padding: EdgeInsets.all(10),),
-
                   // Pet Image
                   RawMaterialButton(
                     fillColor: Theme.of(context).accentColor,
@@ -187,7 +185,7 @@ class _AddToListScreenState extends State<AddToListScreen> {
                   _image != null ? Container(
                       child: Image.file(_image),
                   ) :
-                  Container(height:150),
+                  Image.network('https://i.imgur.com/sUFH1Aq.png'),
 
                   _image != null ? RaisedButton(
                       child: Text('Upload File'),
@@ -195,13 +193,13 @@ class _AddToListScreenState extends State<AddToListScreen> {
                       uploadFile(_image).then((value) => setState(() {
                        _imageURL = value;}
                       ));},
-                    color: Colors.cyan,
+                    color: Colors.blue,
                   ) :
                   Container(),
-
+                  Padding(padding: EdgeInsets.all(10),),
                   // Adding all the data to the List
-                  IconButton(
-                      icon: Icon(Icons.add_circle),
+                  FloatingActionButton(
+                      child: Icon(Icons.add_circle),
                       onPressed: () async {
                         Firestore.instance.collection('PetDetails').add({
                           'petName': _petName.text,

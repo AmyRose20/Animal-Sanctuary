@@ -7,7 +7,7 @@ class ContactScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         // this text appears int a bar at the top of the screen
-        title: Text('Sup Bruh'),
+        title: Text('Contact'),
       ),
       body: Container(),
     );

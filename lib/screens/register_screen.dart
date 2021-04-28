@@ -8,7 +8,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class RegisterScreen extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
-
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
@@ -19,6 +18,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _textEmail = TextEditingController();
   final TextEditingController _textPhoneNumber = TextEditingController();
   final TextEditingController _textPassword = TextEditingController();
+
+  String _userType = 'Customer';
+  void _handleRadioValueChange(String value) {
+    setState(() {
+      _userType = value;
+    });
+  }
 
   Authentication auth;
   @override
@@ -46,6 +52,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 secondNameInput(),
                 emailInput(),
                 phoneNumberInput(),
+                //Text('User Type'),
+                /* Row(
+                    children: <Widget> [
+                      Radio (
+                        value: 'staffMember',
+                        groupValue: _userType,
+                        onChanged: _handleRadioValueChange,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _userType = 'staffMember';
+                          });
+                        },
+                        child: Text('Staff Member'),
+                      ),
+                    ]),
+                Row(
+                    children: <Widget> [
+                      Radio (
+                        value: 'customer',
+                        groupValue: _userType,
+                        onChanged: _handleRadioValueChange,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _userType = 'customer';
+                          });
+                        },
+                        child: Text('Customer'),
+                      ),
+                    ]), */
                 passwordInput(),
                 registerButton(),
                 validationMessage(),

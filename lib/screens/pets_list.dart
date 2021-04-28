@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/pet_details.dart';
 import 'package:animal_sanctuary/screens/add_to_pet_list.dart';
-import 'package:animal_sanctuary/shared/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:animal_sanctuary/models/user_details.dart';
-import 'package:animal_sanctuary/screens/home_screen.dart';
 
 class PetScreen extends StatelessWidget {
   @override
@@ -14,7 +12,7 @@ class PetScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         // this text appears in a bar at the top of the screen
-        title: Text('Pets'),
+        title: Text('Animals'),
       ),
       body: PetList(),
     );
@@ -22,9 +20,6 @@ class PetScreen extends StatelessWidget {
 }
 
 class PetList extends StatefulWidget {
-  //final bool isAdmin;
-  //const PetList(this.isAdmin);
-
   @override
   _PetListState createState() => _PetListState();
 }
@@ -35,11 +30,10 @@ class _PetListState extends State<PetList> {
   // Instance of 'PetDetails' in a List
   List<PetDetails> petDetails = [];
 
-  bool _plusSign = true;
+  //bool _plusSign = true;
   UserDetails userDetails;
   //String userType = '';
   final FirebaseAuth auth = FirebaseAuth.instance;
-
 
   @override
   void initState() {

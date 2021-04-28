@@ -69,7 +69,7 @@ class _AddToListScreenState extends State<EditPetScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Add A Pet')),
+        appBar: AppBar(title: Text('Edit Pet Info')),
         body: Container(
             padding: EdgeInsets.all(24),
             child: SingleChildScrollView(
@@ -122,7 +122,7 @@ class _AddToListScreenState extends State<EditPetScreen> {
                           // Pet Type
                           Text('Pet Type'),
                           // Dog
-                          Row(
+                          /* Row(
                               children: <Widget> [
                                 Radio (
                                   value: 'Dog',
@@ -171,7 +171,7 @@ class _AddToListScreenState extends State<EditPetScreen> {
                                   },
                                   child: Text('Other'),
                                 ),
-                              ]),
+                              ]), */
                           Padding(padding: EdgeInsets.all(10),),
 
                           // Pet Image
@@ -191,7 +191,7 @@ class _AddToListScreenState extends State<EditPetScreen> {
                           _image != null ? Container(
                             child: Image.file(_image),
                           ) :
-                          Container(height:150),
+                          Image.network('https://i.imgur.com/sUFH1Aq.png'),
 
                           _image != null ? RaisedButton(
                             child: Text('Upload File'),
@@ -199,13 +199,13 @@ class _AddToListScreenState extends State<EditPetScreen> {
                               uploadFile(_image).then((value) => setState(() {
                                 _imageURL = value;}
                               ));},
-                            color: Colors.cyan,
+                            color: Colors.blue,
                           ) :
                           Container(),
-
+                          Padding(padding: EdgeInsets.all(10),),
                           // Adding all the data to the List
-                          IconButton(
-                              icon: Icon(Icons.done),
+                          FloatingActionButton(
+                              child: Icon(Icons.done,),
                               onPressed: () async {
                                 if(_petName.text == null) {
                                   _petName.text = petDetails.petName;

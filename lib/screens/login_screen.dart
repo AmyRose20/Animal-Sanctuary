@@ -46,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 emailInput(),
                 passwordInput(),
                 loginButton(),
+                Padding(padding: EdgeInsets.all(15),),
                 validationMessage(),
               ],),)
         ),
@@ -64,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
             hintText: 'yourname@example.com',
             labelText: 'Email',
             icon: Icon(Icons.mail)),
-        validator: (text) => text.isEmpty ? 'Email is required' : '',
+        validator: (text) => text.isEmpty ? 'Email is required' : 'h',
       ),
     );
   }
@@ -113,8 +114,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   print('Error: $e');
                   setState(() {
                     _message = e.message;
-                    //_textEmail.text = "";
-                    //_textPassword.text = "";
                   });
                 }
               }
