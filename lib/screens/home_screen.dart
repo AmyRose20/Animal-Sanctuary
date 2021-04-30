@@ -148,6 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if(data != null) {
       homeDetails = HomeDetails.fromMap(data);
       homeDetails.id = data.documentID;
+      print(homeDetails.id);
     }
     // returns List instance of 'PetDetails'
     return homeDetails;

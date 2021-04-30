@@ -30,7 +30,7 @@ class _PetListState extends State<PetList> {
   // Instance of 'PetDetails' in a List
   List<PetDetails> petDetails = [];
 
-  //bool _plusSign = true;
+  bool _plusSign = true;
   UserDetails userDetails;
   //String userType = '';
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -91,7 +91,8 @@ class _PetListState extends State<PetList> {
         },
       ),
 
-      floatingActionButton: userDetails != null && userDetails.userType == "staffMember" ? FloatingActionButton(
+      floatingActionButton: /* userDetails != null && userDetails.userType == "staffMember" */
+      _plusSign ? FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) =>
