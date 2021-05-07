@@ -25,7 +25,8 @@ class _LoginLaunchScreenState extends State<LoginLaunchScreen> {
       else the Login Screen will display.*/
       if (user != null) {
         route = MaterialPageRoute(builder: (context) =>
-            HomeScreen(false));
+           // HomeScreen(false));
+            HomeScreen());
       }
       else {
         route = MaterialPageRoute(builder: (context) =>

@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
 
 class EditPetScreen extends StatefulWidget {
-  final PetDetails petDetails;
+  PetDetails petDetails;
 
   EditPetScreen(this.petDetails);
   @override
@@ -16,11 +16,11 @@ class EditPetScreen extends StatefulWidget {
 }
 
 class _AddToListScreenState extends State<EditPetScreen> {
-  final PetDetails petDetails;
+  PetDetails petDetails;
   _AddToListScreenState(this.petDetails);
-  final TextEditingController _petName = TextEditingController();
-  final TextEditingController _petAge = TextEditingController();
-  final TextEditingController _petDescription = TextEditingController();
+  TextEditingController _petName = TextEditingController();
+  TextEditingController _petAge = TextEditingController();
+  TextEditingController _petDescription = TextEditingController();
   /* Initial value set to 'Dog' so one of the radio buttons is
   pre-selected when a staff member is adding new data to a new item
   in the list. */
@@ -40,7 +40,7 @@ class _AddToListScreenState extends State<EditPetScreen> {
   /* File(image) retrieved from users phone and subsequently uploaded
   to Firestore using the uploadFile() function. */
   File _image;
-
+  bool isUploaded = true;
   // Code sourced from
   // https://medium.com/swlh/uploading-images-to-cloud-storage-using-flutter-130ac41741b2
   Future getImage(bool gallery) async {
@@ -87,8 +87,7 @@ class _AddToListScreenState extends State<EditPetScreen> {
                                   hintText: 'Rex',
                                   labelText: 'Pet Name',
                                 ),
-                                validator: (text) => text.isEmpty ? 'Pet Name is required' : '',
-                              )
+                              ),
                           ),
 
                           // Pet Age Field
@@ -100,8 +99,7 @@ class _AddToListScreenState extends State<EditPetScreen> {
                                   hintText: '3',
                                   labelText: 'Pet Age',
                                 ),
-                                validator: (text) => text.isEmpty ? 'Age is required' : '',
-                              )
+                              ),
                           ),
 
                           // Pet Description Field
@@ -112,15 +110,14 @@ class _AddToListScreenState extends State<EditPetScreen> {
                                 decoration: InputDecoration(
                                   labelText: 'Description',
                                 ),
-                                validator: (text) => text.isEmpty ? 'Description is required' : '',
                                 maxLines: 10,
                                 minLines: 5,
-                              )
+                              ),
                           ),
                           Padding(padding: EdgeInsets.all(10),),
 
                           // Pet Type
-                          Text('Pet Type'),
+                          //Text('Pet Type'),
                           // Dog
                           /* Row(
                               children: <Widget> [
@@ -182,6 +179,7 @@ class _AddToListScreenState extends State<EditPetScreen> {
                             elevation: 8,
                             onPressed: () {
                               getImage(true);
+                              isUploaded = true;
                             },
                             padding: EdgeInsets.all(15),
                             shape: CircleBorder(),
@@ -193,33 +191,45 @@ class _AddToListScreenState extends State<EditPetScreen> {
                           ) :
                           Image.network('https://i.imgur.com/sUFH1Aq.png'),
 
-                          _image != null ? RaisedButton(
+                         _image != null && isUploaded ? RaisedButton(
                             child: Text('Upload File'),
                             onPressed: () {
-                              uploadFile(_image).then((value) => setState(() {
-                                _imageURL = value;}
-                              ));},
+                              uploadFile(_image, context).then((value) => setState(() {
+                                _imageURL = value;
+                                isUploaded = false;
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      Future.delayed(Duration(seconds: 2), () {
+                                        Navigator.of(context).pop(true);
+                                      });
+                                      return AlertDialog(
+                                        title: Text('File Uploaded'),
+                                      );
+                                    });
+                              }));},
                             color: Colors.blue,
                           ) :
                           Container(),
+
                           Padding(padding: EdgeInsets.all(10),),
                           // Adding all the data to the List
                           FloatingActionButton(
                               child: Icon(Icons.done,),
                               onPressed: () async {
-                                if(_petName.text == null) {
+                                if(_petName.text.isEmpty) {
                                   _petName.text = petDetails.petName;
                                 }
-                                if(_petAge.text == null) {
+                                if(_petAge.text.isEmpty) {
                                   _petAge.text = petDetails.petAge;
                                 }
-                                if(_petDescription.text == null) {
+                                if(_petDescription.text.isEmpty) {
                                   _petDescription.text = petDetails.petDescription;
                                 }
-                                if(_petType == null) {
+                                if(_petType.isEmpty) {
                                   _petType = petDetails.petType;
                                 }
-                                if(_imageURL == null) {
+                                if(_imageURL.isEmpty) {
                                   _imageURL = petDetails.petImage;
                                 }
                                 Firestore.instance.collection('PetDetails').document(petDetails.id).updateData({
@@ -244,13 +254,25 @@ class _AddToListScreenState extends State<EditPetScreen> {
 
 // Code sourced from
 // https://medium.com/swlh/uploading-images-to-cloud-storage-using-flutter-130ac41741b2
-Future<String> uploadFile(File _image) async {
+Future<String> uploadFile(File _image, context) async {
+  //bool isUploaded = false;
   StorageReference storageReference = FirebaseStorage.instance
       .ref()
       .child('Animals/${Path.basename(_image.path)}');
   StorageUploadTask uploadTask = storageReference.putFile(_image);
   await uploadTask.onComplete;
   print('File Uploaded');
+  showDialog(
+      context: context,
+      builder: (context) {
+        Future.delayed(Duration(seconds: 5), () {
+          Navigator.of(context).pop(true);
+        });
+        return AlertDialog(
+          title: Text('File Uploaded'),
+        );
+      });
+  //isUploaded = true;
   String returnURL;
   await storageReference.getDownloadURL().then((fileURL) {
     returnURL =  fileURL;

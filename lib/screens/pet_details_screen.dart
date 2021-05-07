@@ -96,6 +96,24 @@ class _PetDetailState extends State<PetDetail> {
                   padding: EdgeInsets.all(16),
                   child: Image.network(petDetails.petImage),
                 ),
+                Center(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget> [
+                              Container(
+                                padding: EdgeInsets.all(16),
+                                child:Text('Age: '),),
+                                Container(
+                                  padding: EdgeInsets.all(16),
+                                  child: Text(petDetails.petAge),),
+                            ]
+                        )
+                      ]
+                  )
+                ),
                 Container (
                   padding: EdgeInsets.all(16),
                   child: Text(petDetails.petDescription),

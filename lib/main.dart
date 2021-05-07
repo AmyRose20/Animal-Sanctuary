@@ -22,7 +22,8 @@ class MyApp extends StatelessWidget {
     you to give a title to your app. */
     return MaterialApp(
       title: 'Wicklow Animal Sanctuary',
-      home: HomeScreen(true),
+      //home: HomeScreen(true),
+      home:  HomeScreen(),
     );
   }
 }
@@ -31,7 +32,8 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // HomeScreen is what the user will see at the start of the app
-    return HomeScreen(true);
+   // return HomeScreen(true);
+    return HomeScreen();
   }
 }
 

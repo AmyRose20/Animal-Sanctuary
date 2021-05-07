@@ -6,10 +6,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:animal_sanctuary/screens/contact_screen.dart';
 import 'package:animal_sanctuary/models/home_details.dart';
 import 'package:animal_sanctuary/screens/login_launch_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:animal_sanctuary/models/user_details.dart';
 
 class HomeScreen extends StatefulWidget {
-  final bool isLogin;
-  const HomeScreen(this.isLogin);
+  //final bool isLogin;
+ // const HomeScreen(this.isLogin);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -19,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final Firestore db = Firestore.instance;
   final double defaultPadding = 5.0;
   HomeDetails homeDetails;
+  UserDetails userDetails;
   final Authentication auth = new Authentication();
 
   @override
@@ -27,6 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
       getHomeDetails().then((data) {
         setState(() {
           homeDetails = data;
+        });
+      });
+      getUserDetails().then((userData) {
+        setState(() {
+          userDetails = userData;
         });
       });
     }
@@ -45,14 +53,14 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text('Wicklow Animal Sanctuary'),
         actions: [
-          if(widget.isLogin == false) IconButton(
+          userDetails != null ? IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () {
             auth.signOut().then((result) {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) =>
-                      HomeScreen(true)));});},
-          )
+                  HomeScreen()));});},
+          ) : Container(),
         ],
       ),
       body: Container(
@@ -64,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               headerButtons(),
               screenInfo(),
-              if (widget.isLogin) Stack(
+              userDetails == null ? Stack(
                   children: <Widget>[
                     Align(
                     alignment: Alignment.bottomLeft,
@@ -83,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           MaterialPageRoute(builder: (context) =>
                             RegisterLaunchScreen()));})),
             ],
-          ),
+          ) : Container(),
         ]),
       ),
     ));
@@ -145,13 +153,24 @@ class _HomeScreenState extends State<HomeScreen> {
     /* If 'data' is not null, the map() method is called on the
     pet details retrieved by the getDocuments() method, and a list of
     'PetDetails' objects is created calling the 'fromMap' constructor. */
-    if(data != null) {
+    if(data.exists) {
       homeDetails = HomeDetails.fromMap(data);
       homeDetails.id = data.documentID;
       print(homeDetails.id);
     }
     // returns List instance of 'PetDetails'
     return homeDetails;
+  }
+
+  Future<UserDetails> getUserDetails() async {
+    final FirebaseUser user = await auth.getUser();
+    var data = await db.collection('UserDetails').document(user.uid).get();
+
+    if(data != null) {
+      userDetails = UserDetails.fromMap(data);
+      userDetails.id = data.documentID;
+    }
+    return userDetails;
   }
 }
 

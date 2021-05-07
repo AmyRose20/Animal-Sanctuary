@@ -14,9 +14,9 @@ class AddToListScreen extends StatefulWidget {
 
 class _AddToListScreenState extends State<AddToListScreen> {
 
-  final TextEditingController _petName = TextEditingController();
-  final TextEditingController _petAge = TextEditingController();
-  final TextEditingController _petDescription = TextEditingController();
+  TextEditingController _petName = TextEditingController();
+  TextEditingController _petAge = TextEditingController();
+  TextEditingController _petDescription = TextEditingController();
   /* Initial value set to 'Dog' so one of the radio buttons is
   pre-selected when a staff member is adding new data to a new item
   in the list. */
@@ -209,9 +209,10 @@ class _AddToListScreenState extends State<AddToListScreen> {
                           'petImage': _imageURL,
                           }
                         );
-                        Navigator.push(context,
+                        Navigator.of(context).pop();
+                        /*Navigator.push(context,
                             MaterialPageRoute(builder: (context) =>
-                               PetScreen()));
+                               PetScreen()));*/
                       }
                   ),
                 ]

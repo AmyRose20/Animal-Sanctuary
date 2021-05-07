@@ -108,7 +108,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (firebaseUser != null) {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) =>
-                            HomeScreen(false)));
+                            //HomeScreen(false)));
+                            HomeScreen()));
                   }
                 } catch (e) {
                   print('Error: $e');

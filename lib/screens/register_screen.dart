@@ -225,7 +225,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       user.updateProfile(updateUser);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) =>
-                              HomeScreen(false)));
+                             // HomeScreen(false)));
+                            HomeScreen()));
+
                     }
                   } catch (e) {
                     print(e);

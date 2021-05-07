@@ -91,8 +91,7 @@ class _PetListState extends State<PetList> {
         },
       ),
 
-      floatingActionButton: /* userDetails != null && userDetails.userType == "staffMember" */
-      _plusSign ? FloatingActionButton(
+      floatingActionButton: userDetails != null && userDetails.userType == "staffMember" ? FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) =>
