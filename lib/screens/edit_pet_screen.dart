@@ -200,7 +200,7 @@ class _AddToListScreenState extends State<EditPetScreen> {
                                 showDialog(
                                     context: context,
                                     builder: (context) {
-                                      Future.delayed(Duration(seconds: 2), () {
+                                      Future.delayed(Duration(seconds: 1), () {
                                         Navigator.of(context).pop(true);
                                       });
                                       return AlertDialog(

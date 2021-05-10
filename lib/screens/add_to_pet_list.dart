@@ -191,7 +191,17 @@ class _AddToListScreenState extends State<AddToListScreen> {
                       child: Text('Upload File'),
                       onPressed: () {
                       uploadFile(_image).then((value) => setState(() {
-                       _imageURL = value;}
+                       _imageURL = value;
+                       showDialog(
+                           context: context,
+                           builder: (context) {
+                             Future.delayed(Duration(seconds: 1), () {
+                               Navigator.of(context).pop(true);
+                             });
+                             return AlertDialog(
+                               title: Text('File Uploaded'),
+                             );
+                           });}
                       ));},
                     color: Colors.blue,
                   ) :
@@ -209,10 +219,10 @@ class _AddToListScreenState extends State<AddToListScreen> {
                           'petImage': _imageURL,
                           }
                         );
-                        Navigator.of(context).pop();
-                        /*Navigator.push(context,
+                       //Navigator.of(context).pop();
+                        Navigator.push(context,
                             MaterialPageRoute(builder: (context) =>
-                               PetScreen()));*/
+                               PetScreen()));
                       }
                   ),
                 ]

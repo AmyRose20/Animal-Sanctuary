@@ -5,6 +5,8 @@ import '../models/pet_details.dart';
 import 'package:animal_sanctuary/screens/add_to_pet_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:animal_sanctuary/models/user_details.dart';
+import 'package:animal_sanctuary/screens/home_screen.dart';
+import 'package:animal_sanctuary/screens/contact_screen.dart';
 
 class PetScreen extends StatelessWidget {
   @override
@@ -63,7 +65,37 @@ class _PetListState extends State<PetList> {
               image = NetworkImage(
                 petDetails[position].petImage
               );
+              // To fix navigation
+              /* if(position == 0 ) {
+                return Row(
+                    children: [
+                      Padding(padding: EdgeInsets.all(10),),
+                      Expanded(child: RaisedButton(
+                        color: Color(0xff009688),
+                        child: Text("Home",
+                            style: TextStyle(color: Colors.white, fontSize: 20)),
+                        onPressed: () =>
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) =>
+                                    HomeScreen())),
+                      )),
+
+                      Padding(padding: EdgeInsets.all(10),),
+                      Expanded(child: RaisedButton(
+                        color: Color(0xff6009688),
+                        child: Text("Contact Us",
+                            style: TextStyle(color: Colors.white, fontSize: 20)),
+                        onPressed: () =>
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) =>
+                                    ContactScreen())),
+                      )),
+                      Padding(padding: EdgeInsets.all(10),),
+                    ]
+                );
+              } */
             }
+
             return Card(
               color: Colors.white,
               elevation: 2.0,
